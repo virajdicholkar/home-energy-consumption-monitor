@@ -1,0 +1,287 @@
+{
+	"info": {
+		"_postman_id": "8a196da7-90ca-4f4d-bff1-385561847cbb",
+		"name": "Home Energy Tracker API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register home",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"ownerFirstName\": \"Viraj\",\r\n    \"ownerLastName\": \"Dicholkar\",\r\n    \"email\": \"dicholkar.vv@gmail.com\",\r\n    \"loginName\": \"mysweethome\",\r\n    \"phone\": \"9819997405\",\r\n    \"password\": \"sweethome@123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/auth/register",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Home Login API",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d774ed2f-74ce-481f-b5d9-b39f98a3fda9",
+						"exec": [
+							"let responseData = JSON.parse(responseBody)\r",
+							"pm.collectionVariables.set(\"CURRENT_HOME_TOKEN\", responseData.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"loginName\": \"mysweethome\",\r\n    \"password\": \"sweethome@123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/auth/login",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Self home",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{CURRENT_HOME_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/home",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"home"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register device in home",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{CURRENT_HOME_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Bed room Fan\",\r\n    \"description\": \"This is 5 star fan\",\r\n    \"powerInWatts\": 3000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/device",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"device"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all devices in current logged in home",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{CURRENT_HOME_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/device",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"device"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Device token by id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{CURRENT_HOME_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/device/5fa6f2cdb32c074eec5e7caf/token",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"device",
+						"5fa6f2cdb32c074eec5e7caf",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add energy consumption log",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{CURRENT_HOME_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/device/5fa6f2cdb32c074eec5e7caf/token",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"device",
+						"5fa6f2cdb32c074eec5e7caf",
+						"token"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "32c42cb0-da0d-4a93-beaa-44fb3a8d34c9",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "ca28dec0-e821-4138-9fb7-c19e2a1d8ded",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "e31032d4-3bc0-4a59-ad3e-db6afc91c160",
+			"key": "BASE_URL",
+			"value": "http://localhost:3000/"
+		},
+		{
+			"id": "ac4575ca-44c7-4f14-b364-b264356c7034",
+			"key": "CURRENT_HOME_TOKEN",
+			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmE2YzE2MmEyNzQ3NjUzODA0NTkwMzQiLCJsb2dpbk5hbWUiOiJzd2VldGhvbWUiLCJpYXQiOjE2MDQ3NzMxMjR9.qggl7eOrDwXpjRmE9EeHFQFRkLvk8me5fXHfLAHRTRU"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
