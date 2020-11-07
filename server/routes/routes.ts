@@ -1,7 +1,7 @@
 
 import express = require('express')
 
-import { HomeController } from "../modules/user/home.controller";
+import { HomeController } from "../modules/home/home.controller";
 
 class Routes {
     private router = express.Router();
