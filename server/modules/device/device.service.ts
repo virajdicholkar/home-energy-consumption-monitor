@@ -16,7 +16,8 @@ export default class DeviceService {
     async getDeviceToken(device: DeviceInterface) {
         const payLoad = {
             _id: device._id,
-            name: device.name
+            name: device.name,
+            home: device.home
         }
         const deviceToken = await sign(payLoad, environment.jwtDeviceSecret);
         return deviceToken;
