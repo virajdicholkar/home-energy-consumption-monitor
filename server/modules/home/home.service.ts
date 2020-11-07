@@ -15,10 +15,7 @@ export default class HomeService {
         return data;
     }
 
-    async get() {
-        const data = await HomeModel.find().lean()
-        return data;
-    }
+   
 
     async create(home: HomeInterface) {
         const result = await HomeModel.create(home);

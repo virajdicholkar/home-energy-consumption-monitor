@@ -1,4 +1,5 @@
 import { Request, Response, Router } from "express";
+import { authorizeRequest, verifyHomeToken } from "../../middlewares/auth";
 import { HomeInterface } from "./home.model";
 import HomeService from './home.service';
 
@@ -7,23 +8,32 @@ export class HomeController {
     router: Router;
     constructor(router: Router) {
         this.router = router;
-        const homeRouter = this.getRoutes();
         const commonRoute = '/home';
-        this.router.use(commonRoute, homeRouter);
+        const homeRouter = this.getRoutes();
+        this.router.use(commonRoute, authorizeRequest, homeRouter);
+        const authRoutes = '/auth'
+        const authRouter = this.getAuthRoutes();
+        this.router.use(authRoutes, authRouter);
     }
 
-    private getRoutes() {
+    private getAuthRoutes(): Router {
+        const authRouter = Router();
+        authRouter
+            .get('', this.getHome)
+            .post('/register', this.createHome)
+            .post('/login', this.loginToHome)
+        return authRouter
+    }
+
+    private getRoutes(): Router {
         const homeRouter = Router();
         homeRouter
             .get('', this.getHome)
-            .post('', this.createHome)
-            .post('/login', this.loginToHome)
         return homeRouter;
     }
 
     private getHome = async (req: Request, res: Response) => {
-        const result = await this.homeService.get();
-        res.status(200).json(result)
+        res.status(200).json({})
     }
 
     private createHome = async (req: Request, res: Response) => {
