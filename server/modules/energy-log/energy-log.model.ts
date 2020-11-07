@@ -2,7 +2,14 @@ import { Timestamp } from 'mongodb';
 import * as mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
-
+export interface EnergyLogInterface {
+    home: String,
+    device: String,
+    utilizationTimeInSec: number,
+    numberOfUnits: number,
+    from: string,
+    to: string
+}
 export const EnergyLogSchema = new Schema({
 
     home: {
@@ -21,14 +28,14 @@ export const EnergyLogSchema = new Schema({
         required: true
     },
     from: {
-        type: Timestamp,
+        type: String,
         required: true
     },
     to: {
-        type: Timestamp,
+        type: String,
         required: true
     }
-    
+
 }, { timestamps: true });
 
 export const EnergyLogModel = mongoose.model('EnergyLog', EnergyLogSchema);
