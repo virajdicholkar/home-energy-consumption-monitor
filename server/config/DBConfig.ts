@@ -1,21 +1,22 @@
-import mongoose = require('mongoose'); 
+import mongoose = require('mongoose');
+import { environment } from '../../environment';
 
 class DbClient {
-    private mongoUrl: string = 'mongodb://localhost:27017/UserDB';
 
-    public async connect(){
+    public async connect() {
+        const mongoUrl: string = environment.mongoUrl;
         mongoose.Promise = global.Promise;
         return await mongoose
-            .connect(this.mongoUrl, {useNewUrlParser: true})
+            .connect(mongoUrl, { useNewUrlParser: true })
             .then(
-                e=>{
+                e => {
                     console.log('Dtabase Connected')
                 }
             ).catch(
-                err=>{
+                err => {
                     console.log('connection error', err)
                 }
-            );        
+            );
     }
 }
 

@@ -7,14 +7,18 @@ export class HomeController {
     router: Router;
     constructor(router: Router) {
         this.router = router;
-        this.initRoutes();
+        const homeRouter = this.getRoutes();
+        const commonRoute = '/home';
+        this.router.use(commonRoute, homeRouter);
     }
 
-    private initRoutes() {
-        const commonRoute = '/home';
-        this.router
-            .get(commonRoute, this.getHome)
-            .post(commonRoute, this.createHome)
+    private getRoutes() {
+        const homeRouter = Router();
+        homeRouter
+            .get('', this.getHome)
+            .post('', this.createHome)
+            .post('/login', this.loginToHome)
+        return homeRouter;
     }
 
     private getHome = async (req: Request, res: Response) => {
@@ -22,7 +26,7 @@ export class HomeController {
         res.status(200).json(result)
     }
 
-    private createHome = async(req: Request, res: Response) => {
+    private createHome = async (req: Request, res: Response) => {
         try {
 
             const home: HomeInterface = req.body;
@@ -48,7 +52,7 @@ export class HomeController {
             }
 
             const existingHome = await this.homeService.getHomeByLoginName(home.loginName || '');
-            if(existingHome){
+            if (existingHome) {
                 validationError['loginName'] = 'Login name is already taken!'
             }
 
@@ -61,6 +65,37 @@ export class HomeController {
             }
             const result = await this.homeService.create(home);
             res.status(201).json({ message: 'Your home registered successfully!', id: result })
+        } catch (error) {
+            const code = error.code || 500;
+            const message = error.message || 'Oops! Something went wrong!';
+            const data = error.data;
+            res.status(code).json({ message, data });
+        }
+    }
+
+    private loginToHome = async (req: Request, res: Response) => {
+        try {
+            const body: { loginName: string, password: string } = req.body;
+            if (!body.loginName) {
+                throw {
+                    code: 400,
+                    message: 'Login name not found!'
+                }
+            }
+
+            if (!body.password) {
+                throw {
+                    code: 400,
+                    message: 'Password not found!'
+                }
+            }
+
+            const home = await this.homeService.loginToHome(body.loginName, body.password);
+
+            const token = await this.homeService.createLoginToken(home);
+
+            res.status(200).json({ message: 'Login successfull!', token });
+
         } catch (error) {
             const code = error.code || 500;
             const message = error.message || 'Oops! Something went wrong!';
