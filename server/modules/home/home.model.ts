@@ -29,4 +29,4 @@ export const HomeSchema = new Schema({
     }
 }, { timestamps: true });
 
-export const HomeModel = mongoose.model('Homes', HomeSchema);
+export const HomeModel = mongoose.model('Home', HomeSchema);

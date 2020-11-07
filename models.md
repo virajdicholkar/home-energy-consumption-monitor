@@ -7,6 +7,7 @@
 
     - Devices
         - Device name
+        - Description
         - Home id
         - Created date
         - power required in watt

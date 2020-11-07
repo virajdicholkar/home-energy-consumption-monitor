@@ -4,15 +4,15 @@ import HomeService from './home.service';
 export class HomeController {
     homeService = new HomeService();
     router: Router;
-    commonRoute = '/home';
     constructor(router: Router) {
         this.router = router;
         this.initRoutes();
     }
 
     private initRoutes() {
+        const commonRoute = '/home';
         this.router
-            .get(this.commonRoute, this.getHome)
+            .get(commonRoute, this.getHome)
     }
 
     private getHome = async (req: Request, res: Response) => {
