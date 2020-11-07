@@ -26,4 +26,9 @@ export default class DeviceService {
         const device = await DeviceModel.findOne({ name: name, home: new ObjectId(home) }).lean();
         return device;
     }
+
+    async getDeviceById(id: string): Promise<DeviceInterface> {
+        const device = await DeviceModel.findById(id).lean();
+        return device;
+    }
 }

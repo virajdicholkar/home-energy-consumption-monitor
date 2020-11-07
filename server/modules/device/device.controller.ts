@@ -18,6 +18,7 @@ export class DeviceController {
         const router = Router();
         router
             .get('', this.getDevices)
+            .get('/:id/token', this.getDeviceToken)
             .post('', this.registerDevice)
         return router;
     }
@@ -75,4 +76,23 @@ export class DeviceController {
         }
     }
 
+    private getDeviceToken = async (req: Request, res: Response) => {
+        try {
+            const deviceId: string = req.params.id;
+            const device: DeviceInterface = await this.deviceService.getDeviceById(deviceId);
+            if(!device){
+                throw {
+                    code: 400,
+                    message: 'Device not found!'
+                }
+            }
+            const token = await this.deviceService.getDeviceToken(device);
+            res.status(200).json({ token });
+        } catch (error) {
+            const code = error.code || 500;
+            const message = error.message || 'Oops! Something went wrong!';
+            const data = error.data;
+            res.status(code).json({ message, data });
+        }
+    }
 }
