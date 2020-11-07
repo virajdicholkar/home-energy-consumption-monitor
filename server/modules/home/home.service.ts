@@ -47,7 +47,7 @@ export default class HomeService {
 
     async createLoginToken(home: HomeInterface) {
         const payload = { _id: home._id, loginName: home.loginName };
-        const token = await sign(payload, environment.jwtHomeSecret, { expiresIn: 60 * environment.jwtHomeExpiresInHour });
+        const token = await sign(payload, environment.jwtHomeSecret, { expiresIn: 60 * 60 * environment.jwtHomeExpiresInHour });
         return token;
     }
 }
