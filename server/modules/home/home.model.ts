@@ -1,6 +1,15 @@
 import * as mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
+export interface HomeInterface {
+    _id?: string;
+    ownerFirstName?: string;
+    ownerLastName?: string;
+    email?: string;
+    loginName?: string;
+    phone?: string;
+    password?: string;
+}
 
 export const HomeSchema = new Schema({
     ownerFirstName: {
@@ -13,7 +22,6 @@ export const HomeSchema = new Schema({
     },
     email: {
         type: String,
-        unique: true
     },
     loginName: {
         type: String,
@@ -21,7 +29,6 @@ export const HomeSchema = new Schema({
     },
     phone: {
         type: Number,
-        unique: true
     },
     password: {
         type: String,
