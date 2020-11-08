@@ -19,7 +19,7 @@ class App {
         this.app.all('/*', (req, res, next) => {
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Methods", 'GET,PUT,POST,X-Access-Token,X-KEY');
-            res.header("Access-Control-Allow-Headers", 'Content-type,Accept,X-Access-Token,X-Key,Authorization');
+            res.header("Access-Control-Allow-Headers", 'Content-type,Accept,X-Access-Token,X-Key,Authorization,DeviceToken');
             if (req.method == 'OPTIONS') {
                 res.status(200).end();
             } else {
