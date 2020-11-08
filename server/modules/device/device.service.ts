@@ -1,6 +1,6 @@
 import { sign } from "jsonwebtoken";
 import { ObjectId } from "mongodb";
-import { environment } from "../../../environment";
+import { environment } from "../../environment";
 import { DeviceInterface, DeviceModel } from "./device.model";
 export default class DeviceService {
     async getDevicesByHomeId(home: string) {

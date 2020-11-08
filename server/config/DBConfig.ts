@@ -1,5 +1,5 @@
 import mongoose = require('mongoose');
-import { environment } from '../../environment';
+import { environment } from '../environment';
 
 class DbClient {
 

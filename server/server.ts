@@ -1,7 +1,7 @@
 
 import app from './app';
 import * as https from 'http';
-import { environment } from '../environment';
+import { environment } from './environment';
 const PORT = environment.port;
 
 const httpsOptions = {}

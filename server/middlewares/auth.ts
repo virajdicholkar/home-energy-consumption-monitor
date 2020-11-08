@@ -1,13 +1,13 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import { verify } from 'jsonwebtoken';
-import { environment } from "../../environment";
+import { environment } from "../environment";
 import HomeService from "../modules/home/home.service";
 
 const homeService = new HomeService();
 
 export interface HomeCreds { _id: string; loginName: string; }
 
-export const authorizeRequest = async (req: Request, res: Response, next: NextFunction) => {
+export const authorizeany = async (req: any, res: Response, next: NextFunction) => {
 
     try {
         const token = await getTokenFromHeader(req);
@@ -31,7 +31,7 @@ export const authorizeRequest = async (req: Request, res: Response, next: NextFu
 
 }
 
-export const getTokenFromHeader = async (req: Request): Promise<any> => {
+export const getTokenFromHeader = async (req: any): Promise<any> => {
     const token = req.headers['authorization'] as string;
     if (!token) {
         throw {

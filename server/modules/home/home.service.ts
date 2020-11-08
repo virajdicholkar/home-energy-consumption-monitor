@@ -1,6 +1,6 @@
 import { HomeInterface, HomeModel } from "./home.model";
 import { sign } from 'jsonwebtoken';
-import { environment } from "../../../environment";
+import { environment } from "../../environment";
 export default class HomeService {
 
     async getHomeByLoginName(loginName: string): Promise<HomeInterface> {

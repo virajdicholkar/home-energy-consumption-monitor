@@ -1,13 +1,13 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Response } from "express";
 import { verify } from 'jsonwebtoken';
-import { environment } from "../../environment";
+import { environment } from "../environment";
 import DeviceService from "../modules/device/device.service";
 
 const deviceService = new DeviceService();
 
 export interface DeviceCreds { _id: string; home: string, name: string }
 
-export const authorizeLogRequest = async (req: Request, res: Response, next: NextFunction) => {
+export const authorizeLogany = async (req: any, res: Response, next: NextFunction) => {
     try {
         const token = await getDeviceTokenFromHeader(req);
         const deviceCred: DeviceCreds = await verifyDeviceToken(token);
@@ -28,7 +28,7 @@ export const authorizeLogRequest = async (req: Request, res: Response, next: Nex
     }
 }
 
-export const getDeviceTokenFromHeader = async (req: Request): Promise<any> => {
+export const getDeviceTokenFromHeader = async (req: any): Promise<any> => {
     const token = req.headers['devicetoken'] as string;
     if (!token) {
         throw {

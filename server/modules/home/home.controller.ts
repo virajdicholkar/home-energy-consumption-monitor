@@ -1,5 +1,5 @@
-import { Request, Response, Router } from "express";
-import { authorizeRequest, verifyHomeToken } from "../../middlewares/auth";
+import { Response, Router } from "express";
+import { authorizeany, verifyHomeToken } from "../../middlewares/auth";
 import EnergyLogService from "../energy-log/energy-log.service";
 import { HomeInterface } from "./home.model";
 import HomeService from './home.service';
@@ -13,7 +13,7 @@ export class HomeController {
         this.router = router;
         const commonRoute = '/home';
         const homeRouter = this.getRoutes();
-        this.router.use(commonRoute, authorizeRequest, homeRouter);
+        this.router.use(commonRoute, authorizeany, homeRouter);
         const authRoutes = '/auth'
         const authRouter = this.getAuthRoutes();
         this.router.use(authRoutes, authRouter);
@@ -37,11 +37,11 @@ export class HomeController {
         return homeRouter;
     }
 
-    private getHome = async (req: Request, res: Response) => {
+    private getHome = async (req: any, res: Response) => {
         res.status(200).json(req.currentHome);
     }
 
-    private createHome = async (req: Request, res: Response) => {
+    private createHome = async (req: any, res: Response) => {
         try {
 
             const home: HomeInterface = req.body;
@@ -88,7 +88,7 @@ export class HomeController {
         }
     }
 
-    private loginToHome = async (req: Request, res: Response) => {
+    private loginToHome = async (req: any, res: Response) => {
         try {
             const body: { loginName: string, password: string } = req.body;
             if (!body.loginName) {
@@ -119,7 +119,7 @@ export class HomeController {
         }
     }
 
-    private getLogs = async (req: Request, res: Response) => {
+    private getLogs = async (req: any, res: Response) => {
         try {
             const currentHome: HomeInterface = req.currentHome;
             const page = +req.query.page || 1;
@@ -135,7 +135,7 @@ export class HomeController {
         }
     }
 
-    private getLogById = async (req: Request, res: Response) => {
+    private getLogById = async (req: any, res: Response) => {
         try {
             const currentHome: HomeInterface = req.currentHome;
             const logId = req.params.id;

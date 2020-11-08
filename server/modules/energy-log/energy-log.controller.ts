@@ -1,5 +1,5 @@
-import { Request, Response, Router } from "express";
-import { authorizeLogRequest } from "../../middlewares/device";
+import { Response, Router } from "express";
+import { authorizeLogany } from "../../middlewares/device";
 import { DeviceInterface } from "../device/device.model";
 import EnergyLogService from './energy-log.service';
 
@@ -10,7 +10,7 @@ export class EnergyLogController {
         this.router = router;
         const logRoute = '/energy-log';
         const logRouter = this.getLogRouter();
-        this.router.use(logRoute, authorizeLogRequest, logRouter);
+        this.router.use(logRoute, authorizeLogany, logRouter);
     }
 
     private getLogRouter(): Router {
@@ -20,7 +20,7 @@ export class EnergyLogController {
         return router;
     }
 
-    private addLog = async (req: Request, res: Response) => {
+    private addLog = async (req: any, res: Response) => {
 
         try {
             const currentDevice: DeviceInterface = req.currentDevice;

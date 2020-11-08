@@ -1,6 +1,6 @@
-import { Request, Response, Router } from "express";
+import { Response, Router } from "express";
 import { ObjectID } from "mongodb";
-import { authorizeRequest } from "../../middlewares/auth";
+import { authorizeany } from "../../middlewares/auth";
 import { DeviceInterface } from "./device.model";
 import DeviceService from './device.service';
 
@@ -11,7 +11,7 @@ export class DeviceController {
         this.router = router;
         const deviceRoute = '/device';
         const deviceRouter: Router = this.getDeviceRoutes();
-        this.router.use(deviceRoute, authorizeRequest, deviceRouter);
+        this.router.use(deviceRoute, authorizeany, deviceRouter);
     }
 
     private getDeviceRoutes(): Router {
@@ -23,7 +23,7 @@ export class DeviceController {
         return router;
     }
 
-    private getDevices = async (req: Request, res: Response) => {
+    private getDevices = async (req: any, res: Response) => {
         try {
             const currentHome = req.currentHome;
             const devices = await this.deviceService.getDevicesByHomeId(currentHome._id);
@@ -36,7 +36,7 @@ export class DeviceController {
         }
     }
 
-    private registerDevice = async (req: Request, res: Response) => {
+    private registerDevice = async (req: any, res: Response) => {
         try {
             const currentHome = req.currentHome;
             const device: DeviceInterface = req.body;
@@ -76,7 +76,7 @@ export class DeviceController {
         }
     }
 
-    private getDeviceToken = async (req: Request, res: Response) => {
+    private getDeviceToken = async (req: any, res: Response) => {
         try {
             const deviceId: string = req.params.id;
             const device: DeviceInterface = await this.deviceService.getDeviceById(deviceId);
