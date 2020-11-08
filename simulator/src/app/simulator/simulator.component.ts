@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-simulator',
   templateUrl: './simulator.component.html',
@@ -17,6 +18,7 @@ export class SimulatorComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
+    this.loadDevicesFromLocalStorage();
   }
 
   initForm() {
@@ -26,27 +28,29 @@ export class SimulatorComponent implements OnInit {
     })
   }
 
-  addDevice(){
-    if(!this.deviceForm.valid){
+  addDevice() {
+    if (!this.deviceForm.valid) {
       return;
     }
     const device = this.deviceForm.value;
     this.deviceList.push(device);
     this.deviceForm.reset();
+    this.saveToLocalStorage();
   }
 
-  clearForm(){
+  clearForm() {
     this.deviceForm.reset();
   }
 
-  startDevice(device){
+  startDevice(device) {
     device.started = true;
     device.startedTime = new Date();
+    this.saveToLocalStorage();
   }
 
-  stopDevice(device){
+  stopDevice(device) {
     const to = new Date()
-    const from: Date = device.startedTime;
+    const from: Date = new Date(device.startedTime);
     device.started = false;
     device.startedTime = null;
     const body = {
@@ -54,12 +58,25 @@ export class SimulatorComponent implements OnInit {
       to: to.toISOString()
     }
     const deviceToken = device.token;
-    const url = 'http://localhost:3000/energy-log';
-    const headers = new HttpHeaders({deviceToken});
-    this.httpClient.post(url, body, { headers }).subscribe((success)=>{
+    const url = `${environment.baseUrl}energy-log`;
+    const headers = new HttpHeaders({ deviceToken });
+    this.saveToLocalStorage();
+    this.httpClient.post(url, body, { headers }).subscribe((success) => {
       console.log('success', success)
-    },(error)=>{
+    }, (error) => {
       console.log('error', error)
     })
+  }
+
+  saveToLocalStorage() {
+    localStorage.setItem('deviceList', JSON.stringify({ deviceList: this.deviceList }))
+
+  }
+  loadDevicesFromLocalStorage() {
+    const deviceList = localStorage.getItem('deviceList');
+    if (deviceList && deviceList !== 'undefined') {
+      const parsedList = JSON.parse(deviceList);
+      this.deviceList = parsedList['deviceList']
+    }
   }
 }
