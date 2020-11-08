@@ -28,7 +28,7 @@ export const HomeSchema = new Schema({
         unique: true
     },
     phone: {
-        type: Number,
+        type: String,
     },
     password: {
         type: String,
