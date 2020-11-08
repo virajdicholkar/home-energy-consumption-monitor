@@ -2,7 +2,7 @@ import app from "../server/app";
 const chai = require('chai');
 const request = require('supertest');
 
-describe.only('/home/', async () => {
+describe.only('GET /home/', async () => {
     let token;
     before(async () => {
         const body = {
