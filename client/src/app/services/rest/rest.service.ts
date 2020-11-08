@@ -12,9 +12,7 @@ export class RestService {
   baseUrl = '';
   authUrl = '';
   isLogin = false;
-  headers = new Headers({
-    'conten-type': 'application/json'
-  })
+  headers = new Headers()
   currentHome;
   /**
    * Creates a new NameListService with the injected Http.
@@ -31,6 +29,7 @@ export class RestService {
 
   checkLocalStorageToken() {
     const token = localStorage.getItem('token');
+    console.log('token', token)
     if (token) {
       this.setToken(token);
       this.getCurrentHome();
@@ -45,10 +44,6 @@ export class RestService {
       console.log('error', error)
       this.logout();
     })
-  }
-
-  login(body: { loginName: string, password: string }) {
-
   }
 
   logout() {

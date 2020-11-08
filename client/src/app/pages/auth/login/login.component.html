@@ -1,12 +1,15 @@
 <div class="d-flex flex-column mb-4">
-    <h6 class=" text-center my-1">Sign in to</h6>
-    <h2 class=" text-center my-0">Auth Services</h2>
+    <h6 class=" text-center my-1">Login your home to</h6>
+    <h2 class=" text-center my-0">Energy tracker</h2>
 </div>
 <div class="card ">
     <div class="card-body">
         <form (submit)='login()' [formGroup]='loginForm'>
+            <div class="alert alert-danger" role="alert" *ngIf='error'>
+                {{error}}
+            </div>
             <div class="form-group">
-                <label for="exampleInputEmail1">Email address</label>
+                <label for="exampleInputEmail1">Login name</label>
                 <input formControlName='loginName' type="email" class="form-control" id="loginName" name="loginName"
                     aria-describedby="emailHelp" placeholder="Enter email">
                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
@@ -21,11 +24,11 @@
                 <input type="checkbox" class="form-check-input" id="exampleCheck1">
                 <label class="form-check-label" for="exampleCheck1">Check me out</label>
             </div>
-            <button [disabled]='httpProcessing' type="button" (click)='login()'
-                class="btn btn-primary btn-block">Submit</button>
+            <button [disabled]='httpProcessing || !loginForm.valid' type="button" (click)='login()'
+                class="btn btn-primary btn-block">{{ httpProcessing ? 'Logging in...' :'Submit'}} </button>
         </form>
     </div>
     <div class="card-footer text-center">
-        New here? <a routerLink='/sign-up'>Click to register.</a>
+        <p>Not registered yet?<a class="btn btn-link pt-0 pl-1" routerLink='/auth/register'>Register you home.</a></p>
     </div>
 </div>

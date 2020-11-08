@@ -15,6 +15,7 @@
   "dependencies": {
     "@types/express": "^4.17.0",
     "@types/jsonwebtoken": "^8.5.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "http": "0.0.0",
     "jsonwebtoken": "^8.5.1",
