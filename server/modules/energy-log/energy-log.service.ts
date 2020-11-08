@@ -1,15 +1,16 @@
-import { ObjectId } from "mongodb";
+import { ObjectID, ObjectId } from "mongodb";
 import { DeviceInterface } from "../device/device.model";
 import { EnergyLogInterface, EnergyLogModel } from "./energy-log.model";
 export default class EnergyLogService {
-    async get() {
-        const data = await EnergyLogModel.find()
+    async getLogsByHome(homeId: string) {
+        const home = new ObjectID(homeId);
+        const data = await EnergyLogModel.find({ home }).populate('device', { name: 1 });
         return data;
     }
 
     async create(device: DeviceInterface, from: Date, to: Date) {
-        const fromSeconds = (+(from))/1000;
-        const toSeconds = (+(to))/1000;
+        const fromSeconds = (+(from)) / 1000;
+        const toSeconds = (+(to)) / 1000;
 
         const utilizationTimeInSec = toSeconds - fromSeconds;
         const utilizationTimeInHours = utilizationTimeInSec / 3600;

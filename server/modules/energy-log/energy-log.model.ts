@@ -18,7 +18,7 @@ export const EnergyLogSchema = new Schema({
     },
     device: {
         type: Schema.Types.ObjectId,
-        ref: 'Home'
+        ref: 'Device'
     },
     utilizationTimeInSec: {
         type: Number,

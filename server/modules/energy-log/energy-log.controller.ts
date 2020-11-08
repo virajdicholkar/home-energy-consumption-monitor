@@ -1,6 +1,8 @@
 import { Request, Response, Router } from "express";
+import { authorizeRequest } from "../../middlewares/auth";
 import { authorizeLogRequest } from "../../middlewares/device";
 import { DeviceInterface } from "../device/device.model";
+import { HomeInterface } from "../home/home.model";
 import EnergyLogService from './energy-log.service';
 
 export class EnergyLogController {
@@ -9,14 +11,24 @@ export class EnergyLogController {
     constructor(router: Router) {
         this.router = router;
         const commonRoute = '/energy-log';
-        const logRouter = this.getLogRouter();
-        this.router.use(commonRoute, authorizeLogRequest, logRouter);
+        const deviceRouter = this.getDeviceRouter();
+        this.router.use(commonRoute, authorizeLogRequest, deviceRouter);
+        const userRouter = this.getUserRouter();
+
+        this.router.use(commonRoute, authorizeRequest, userRouter);
     }
 
-    private getLogRouter(): Router {
+    private getDeviceRouter(): Router {
         const router = Router();
         router
             .post('', this.addLog)
+        return router;
+    }
+
+    private getUserRouter(): Router {
+        const router = Router();
+        router
+            .get('', this.getLogs);
         return router;
     }
 
@@ -60,6 +72,21 @@ export class EnergyLogController {
 
 
 
+
+    }
+
+    private getLogs = async (req: Request, res: Response) => {
+
+        try {
+            const currentHome: HomeInterface = req.currentHome;
+            const result = await this.energyLogService.getLogsByHome(currentHome._id || '');
+            res.status(200).json(result)
+        } catch (error) {
+            const code = error.code || 500;
+            const message = error.message || 'Oops! Something went wrong!';
+            const data = error.data;
+            res.status(code).json({ message, data });
+        }
 
     }
 
