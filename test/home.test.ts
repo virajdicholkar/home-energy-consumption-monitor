@@ -42,3 +42,50 @@ describe.only('GET /home/', async () => {
             .expect(401)
     })
 });
+
+describe.only('GET /home/energy-log', async () => {
+    let token;
+    const url = '/home/energy-log';
+    before(async () => {
+        const body = {
+            "loginName": "testinghome2",
+            "password": "testhome@123"
+        }
+        let login = await request(app)
+            .post('/auth/login')
+            .send(body);
+        token = login.body.token
+    })
+
+    it('Should return unauthorized error if token not passed in headers', async () => {
+        const response = await request(app)
+            .get(url)
+            .expect(401)
+    })
+
+    it('Should return array of logs with total count', async () => {
+        const response = await request(app)
+            .get(url)
+            .set('authorization', token)
+            .expect(200)
+        const { result, totalCount } = response.body;
+        chai.expect(result).to.be.an('array')
+        chai.expect(totalCount).to.be.a('number')
+        chai.expect(result.length <= 10).to.equal(true);
+        chai.expect(result.length <= totalCount).to.equal(true);
+    })
+
+    it('If limit is passed to url query, API should return array of logs with length length smaller that or equal to limit ', async () => {
+        const limit = 5;
+        const urlWithQuery = `${url}?limit=${limit}`
+        const response = await request(app)
+            .get(url)
+            .set('authorization', token)
+            .expect(200)
+        const { result, totalCount } = response.body;
+        chai.expect(result).to.be.an('array')
+        chai.expect(totalCount).to.be.a('number')
+        chai.expect(result.length <= limit).to.equal(true);
+        chai.expect(result.length <= totalCount).to.equal(true);
+    })
+})
