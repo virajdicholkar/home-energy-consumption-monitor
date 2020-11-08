@@ -1,3 +1,4 @@
+import { ObjectID } from "mongodb";
 import app from "../server/app";
 const chai = require('chai');
 const request = require('supertest');
@@ -146,5 +147,53 @@ describe('GET /device', async () => {
         chai.expect(totalCount).to.be.a('number')
         chai.expect(result.length <= limit).to.equal(true);
         chai.expect(result.length <= totalCount).to.equal(true);
+    })
+})
+
+describe.only('GET /device/:id/token', async () => {
+    let token, deviceId;
+    let url = '/device';
+    before(async () => {
+        const body = {
+            "loginName": "testinghome2",
+            "password": "testhome@123"
+        }
+        const login = await request(app)
+            .post('/auth/login')
+            .send(body)
+            .expect(200)
+        token = login.body.token
+
+        const devices = await request(app)
+            .get('/device')
+            .set('authorization', token)
+            .expect(200)
+        deviceId = devices.body.result[0]._id;
+        url = `${url}/${deviceId}/token`;
+    })
+
+    it('Should return unauthorized error if token not passed in headers', async () => {
+        const response = await request(app)
+            .post(url)
+            .expect(401)
+    })
+
+    it('Should return device token for the device id', async () => {
+
+        const response = await request(app)
+            .get(url)
+            .set('authorization', token)
+            .expect(200)
+        const deviceToken = response.body.token;
+        chai.expect(deviceToken).to.be.an('string')
+    })
+
+    it('Should return error if random id passed', async () => {
+        deviceId = new ObjectID();
+        const url = `/device/${deviceId}/token`;
+        const response = await request(app)
+            .get(url)
+            .set('authorization', token)
+            .expect(400)
     })
 })
