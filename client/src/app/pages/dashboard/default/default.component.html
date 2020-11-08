@@ -23,7 +23,7 @@
         </tbody>
     </table>
 
-    <div *ngIf="totalPages > 1" class="d-flex justify-content-between border-top pt-2">
+    <div class="d-flex justify-content-between border-top pt-2">
         <div class="form-group d-flex">
             <select (change)="changeLimit($event.target.value)" class="form-control">
                 <option [value]='5'>5</option>
@@ -34,7 +34,7 @@
             </select>
         </div>
 
-        <nav>
+        <nav  *ngIf="totalPages > 1">
             <ul class="pagination">
                 <li class="page-item" *ngIf="currentPage !== 1">
                     <a (click)="changeCurrentPage(currentPage-1)" class="page-link">Previous</a>
