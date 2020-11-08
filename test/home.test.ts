@@ -2,7 +2,7 @@ import app from "../server/app";
 const chai = require('chai');
 const request = require('supertest');
 
-describe.only('GET /home/', async () => {
+describe('GET /home/', async () => {
     let token;
     before(async () => {
         const body = {
@@ -43,7 +43,7 @@ describe.only('GET /home/', async () => {
     })
 });
 
-describe.only('GET /home/energy-log', async () => {
+describe('GET /home/energy-log', async () => {
     let token;
     const url = '/home/energy-log';
     before(async () => {
