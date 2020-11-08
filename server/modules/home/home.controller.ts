@@ -1,5 +1,5 @@
 import { Response, Router } from "express";
-import { authorizeany, verifyHomeToken } from "../../middlewares/auth";
+import { authorizeRequest, verifyHomeToken } from "../../middlewares/auth";
 import EnergyLogService from "../energy-log/energy-log.service";
 import { HomeInterface } from "./home.model";
 import HomeService from './home.service';
@@ -13,7 +13,7 @@ export class HomeController {
         this.router = router;
         const commonRoute = '/home';
         const homeRouter = this.getRoutes();
-        this.router.use(commonRoute, authorizeany, homeRouter);
+        this.router.use(commonRoute, authorizeRequest, homeRouter);
         const authRoutes = '/auth'
         const authRouter = this.getAuthRoutes();
         this.router.use(authRoutes, authRouter);

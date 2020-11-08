@@ -7,7 +7,7 @@ const homeService = new HomeService();
 
 export interface HomeCreds { _id: string; loginName: string; }
 
-export const authorizeany = async (req: any, res: Response, next: NextFunction) => {
+export const authorizeRequest = async (req: any, res: Response, next: NextFunction) => {
 
     try {
         const token = await getTokenFromHeader(req);

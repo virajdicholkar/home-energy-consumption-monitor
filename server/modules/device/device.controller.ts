@@ -1,6 +1,6 @@
 import { Response, Router } from "express";
 import { ObjectID } from "mongodb";
-import { authorizeany } from "../../middlewares/auth";
+import { authorizeRequest } from "../../middlewares/auth";
 import { DeviceInterface } from "./device.model";
 import DeviceService from './device.service';
 
@@ -11,7 +11,7 @@ export class DeviceController {
         this.router = router;
         const deviceRoute = '/device';
         const deviceRouter: Router = this.getDeviceRoutes();
-        this.router.use(deviceRoute, authorizeany, deviceRouter);
+        this.router.use(deviceRoute, authorizeRequest, deviceRouter);
     }
 
     private getDeviceRoutes(): Router {
