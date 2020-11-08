@@ -33,6 +33,7 @@ export class HomeController {
         homeRouter
             .get('', this.getHome)
             .get('/energy-log', this.getLogs)
+            .get('/energy-log/:id', this.getLogById);
         return homeRouter;
     }
 
@@ -125,6 +126,20 @@ export class HomeController {
             const limit = +req.query.limit || 10;
             const skip = (page - 1) * limit;
             const result = await this.energyLogService.getLogsByHome(currentHome._id || '', skip, limit);
+            res.status(200).json(result)
+        } catch (error) {
+            const code = error.code || 500;
+            const message = error.message || 'Oops! Something went wrong!';
+            const data = error.data;
+            res.status(code).json({ message, data });
+        }
+    }
+
+    private getLogById = async (req: Request, res: Response) => {
+        try {
+            const currentHome: HomeInterface = req.currentHome;
+            const logId = req.params.id;
+            const result = await this.energyLogService.getHomeLogById(currentHome._id || '', logId);
             res.status(200).json(result)
         } catch (error) {
             const code = error.code || 500;

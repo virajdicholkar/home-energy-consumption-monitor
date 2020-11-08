@@ -2,13 +2,23 @@ import { ObjectID, ObjectId } from "mongodb";
 import { DeviceInterface } from "../device/device.model";
 import { EnergyLogInterface, EnergyLogModel } from "./energy-log.model";
 export default class EnergyLogService {
-    async getLogsByHome(homeId: string, skip: number = 0, limit: number = 10) {
+    async getHomeLogById(homeId: string, logId): Promise<Array<EnergyLogInterface>> {
+        const home = new ObjectID(homeId);
+        const _id = new ObjectID(logId);
+        const result = await EnergyLogModel.find({ _id, home })
+            .populate('device')
+            .lean();
+        return result;
+    }
+
+    async getLogsByHome(homeId: string, skip: number = 0, limit: number = 10): Promise<{ totalCount: number, result: EnergyLogInterface }> {
         const home = new ObjectID(homeId);
         const totalCount = await EnergyLogModel.find({ home }).count();
         const result = await EnergyLogModel.find({ home })
             .skip(skip)
             .limit(limit)
-            .populate('device', { name: 1 });
+            .populate('device', { name: 1 })
+            .lean();
         return { totalCount, result };
     }
 

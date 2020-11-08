@@ -3,8 +3,8 @@ import * as mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 export interface EnergyLogInterface {
-    home: String,
-    device: String,
+    home: any,
+    device: any,
     utilizationTimeInSec: number,
     numberOfUnits: number,
     from: string,
