@@ -8,7 +8,6 @@ import { routes } from "./routes/routes"
 class App {
 
     public app: express.Application = express();
-    // public mongoUrl: string = 'mongodb://localhost/CRMdb';  
     constructor() {
         this.config();
     }
@@ -30,7 +29,6 @@ class App {
         this.app.use(express.static('public'));
 
         this.app.use(routes.routes());
-        // this.app.listen(3000)
 
         let db = await DBConfig.connect()
 
@@ -40,10 +38,5 @@ class App {
 
 }
 
-declare namespace Express {
-    export interface Request {
-        currentHome?: any;
-    }
-}
 export default new App().app;
 
