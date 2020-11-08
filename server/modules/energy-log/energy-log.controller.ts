@@ -50,7 +50,7 @@ export class EnergyLogController {
             }
 
             const result = await this.energyLogService.create(currentDevice, fromDate, toDate);
-            res.status(200).json(result)
+            res.status(201).json(result)
         } catch (error) {
             const code = error.code || 500;
             const message = error.message || 'Oops! Something went wrong!';
