@@ -70,7 +70,7 @@ export class DeviceController {
             device.home = currentHome._id;
             const newDevice = await this.deviceService.createDevice(device);
             const token = await this.deviceService.getDeviceToken(newDevice);
-            res.status(200).json({ message: 'Your devices registered successfully', token });
+            res.status(201).json({ message: 'Your devices registered successfully', token });
         } catch (error) {
             const code = error.code || 500;
             const message = error.message || 'Oops! Something went wrong!';
