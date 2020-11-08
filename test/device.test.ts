@@ -150,7 +150,7 @@ describe('GET /device', async () => {
     })
 })
 
-describe.only('GET /device/:id/token', async () => {
+describe('GET /device/:id/token', async () => {
     let token, deviceId;
     let url = '/device';
     before(async () => {
