@@ -164,7 +164,6 @@ describe('POST /auth/login', function () {
             .expect('Content-Type', /json/)
             .expect(400)
             .end(function (err, res) {
-                console.log('res.body', res.body)
                 if (err)
                     return done(err);
                 chai.expect(res.body.message).to.be.a('string');
@@ -186,7 +185,6 @@ describe('POST /auth/login', function () {
             .expect('Content-Type', /json/)
             .expect(400)
             .end(function (err, res) {
-                console.log('res.body', res.body)
                 if (err)
                     return done(err);
                 chai.expect(res.body.message).to.be.a('string');
@@ -208,7 +206,6 @@ describe('POST /auth/login', function () {
             .expect('Content-Type', /json/)
             .expect(400)
             .end(function (err, res) {
-                console.log('res.body', res.body)
                 if (err)
                     return done(err);
                 chai.expect(res.body.message).to.be.a('string');
@@ -230,7 +227,6 @@ describe('POST /auth/login', function () {
             .expect('Content-Type', /json/)
             .expect(400)
             .end(function (err, res) {
-                console.log('res.body', res.body)
                 if (err)
                     return done(err);
                 chai.expect(res.body.message).to.be.a('string');
