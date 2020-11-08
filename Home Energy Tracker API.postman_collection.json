@@ -213,6 +213,38 @@
 		},
 		{
 			"name": "Add energy consumption log",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "devicetoken",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmE2ZjJjZGIzMmMwNzRlZWM1ZTdjYWYiLCJuYW1lIjoiVHViZWxpZ2h0IiwiaG9tZSI6IjVmYTZmMWEwZjcwOTExMmU4MGMyYTIxYSIsImlhdCI6MTYwNDc4MDE0NX0.ox1uYEGX98GiEZVFI-aUuQMWSS1uKNAKzlnZawyvcS8",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"from\": \"Sun Nov 07 2020 12:46:21 GMT+0530 (India Standard Time)\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/energy-log",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"energy-log"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get energy logs",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -235,14 +267,50 @@
 					}
 				},
 				"url": {
-					"raw": "{{BASE_URL}}/device/5fa6f2cdb32c074eec5e7caf/token",
+					"raw": "{{BASE_URL}}/home/energy-log",
 					"host": [
 						"{{BASE_URL}}"
 					],
 					"path": [
-						"device",
-						"5fa6f2cdb32c074eec5e7caf",
-						"token"
+						"home",
+						"energy-log"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get energy logs by id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{CURRENT_HOME_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BASE_URL}}/home/energy-log/5fa701b9c448740a788cc902",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"home",
+						"energy-log",
+						"5fa701b9c448740a788cc902"
 					]
 				}
 			},
@@ -273,12 +341,12 @@
 	],
 	"variable": [
 		{
-			"id": "e31032d4-3bc0-4a59-ad3e-db6afc91c160",
+			"id": "d90714b3-52de-4104-a716-002e9ac34381",
 			"key": "BASE_URL",
 			"value": "http://localhost:3000/"
 		},
 		{
-			"id": "ac4575ca-44c7-4f14-b364-b264356c7034",
+			"id": "865f6672-c811-4749-96a8-432744381edd",
 			"key": "CURRENT_HOME_TOKEN",
 			"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmE2YzE2MmEyNzQ3NjUzODA0NTkwMzQiLCJsb2dpbk5hbWUiOiJzd2VldGhvbWUiLCJpYXQiOjE2MDQ3NzMxMjR9.qggl7eOrDwXpjRmE9EeHFQFRkLvk8me5fXHfLAHRTRU"
 		}
