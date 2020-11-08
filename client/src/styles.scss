@@ -7,3 +7,10 @@ html, body{
     margin: 0;
     padding: 0;
 }
+
+.page-header{
+    min-height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
