@@ -31,7 +31,7 @@
         </tbody>
     </table>
 
-    <div class="d-flex justify-content-between border-top pt-2">
+    <div *ngIf="totalPages > 1" class="d-flex justify-content-between border-top pt-2">
         <div class="form-group d-flex">
             <select (change)="changeLimit($event.target.value)" class="form-control">
                 <option [value]='5'>5</option>
