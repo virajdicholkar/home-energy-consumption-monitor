@@ -3,9 +3,10 @@ import { ObjectId } from "mongodb";
 import { environment } from "../../environment";
 import { DeviceInterface, DeviceModel } from "./device.model";
 export default class DeviceService {
-    async getDevicesByHomeId(home: string) {
-        const data = await DeviceModel.find({ home });
-        return data;
+    async getDevicesByHomeId(home: string, limit = 5, skip = 0) {
+        const totalCount = await DeviceModel.find({ home }).count();
+        const result = await DeviceModel.find({ home }).skip(skip).limit(limit).lean();
+        return { totalCount, result };
     }
 
     async createDevice(device: DeviceInterface) {

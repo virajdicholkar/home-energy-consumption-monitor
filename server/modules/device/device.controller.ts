@@ -26,8 +26,11 @@ export class DeviceController {
     private getDevices = async (req: any, res: Response) => {
         try {
             const currentHome = req.currentHome;
-            const devices = await this.deviceService.getDevicesByHomeId(currentHome._id);
-            res.status(200).json({ message: 'Your devices retrieved successfully', devices });
+            const page = +req.query.page || 1;
+            const limit = +req.query.limit || 10;
+            const skip = (page - 1) * limit;
+            const result = await this.deviceService.getDevicesByHomeId(currentHome._id, limit, skip);
+            res.status(200).json(result);
         } catch (error) {
             const code = error.code || 500;
             const message = error.message || 'Oops! Something went wrong!';
@@ -80,7 +83,7 @@ export class DeviceController {
         try {
             const deviceId: string = req.params.id;
             const device: DeviceInterface = await this.deviceService.getDeviceById(deviceId);
-            if(!device){
+            if (!device) {
                 throw {
                     code: 400,
                     message: 'Device not found!'
