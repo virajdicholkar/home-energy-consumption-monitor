@@ -1,10 +1,13 @@
 import { Request, Response, Router } from "express";
 import { authorizeRequest, verifyHomeToken } from "../../middlewares/auth";
+import EnergyLogService from "../energy-log/energy-log.service";
 import { HomeInterface } from "./home.model";
 import HomeService from './home.service';
 
 export class HomeController {
     homeService = new HomeService();
+    energyLogService = new EnergyLogService();
+
     router: Router;
     constructor(router: Router) {
         this.router = router;
@@ -29,6 +32,7 @@ export class HomeController {
         const homeRouter = Router();
         homeRouter
             .get('', this.getHome)
+            .get('/energy-log', this.getLogs)
         return homeRouter;
     }
 
@@ -106,6 +110,22 @@ export class HomeController {
 
             res.status(200).json({ message: 'Login successfull!', token });
 
+        } catch (error) {
+            const code = error.code || 500;
+            const message = error.message || 'Oops! Something went wrong!';
+            const data = error.data;
+            res.status(code).json({ message, data });
+        }
+    }
+
+    private getLogs = async (req: Request, res: Response) => {
+        try {
+            const currentHome: HomeInterface = req.currentHome;
+            const page = +req.query.page || 1;
+            const limit = +req.query.limit || 10;
+            const skip = (page - 1) * limit;
+            const result = await this.energyLogService.getLogsByHome(currentHome._id || '', skip, limit);
+            res.status(200).json(result)
         } catch (error) {
             const code = error.code || 500;
             const message = error.message || 'Oops! Something went wrong!';
