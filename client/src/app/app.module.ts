@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
   declarations: [
     AppComponent,
     AuthLayoutComponent,
-    DashboardLayoutComponent
+    DashboardLayoutComponent,
   ],
   imports: [
     CommonModule,

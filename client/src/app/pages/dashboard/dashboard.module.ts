@@ -2,26 +2,21 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DefaultComponent } from './default/default.component';
 import { RouterModule, Routes } from '@angular/router';
-import { DevicesComponent } from './devices/devices.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'default',
+    redirectTo: 'log',
     pathMatch: 'full'
   },
   {
-    path: 'default',
+    path: 'log',
     component: DefaultComponent
-  },
-  {
-    path: 'devices',
-    component: DevicesComponent
   }
 ]
 
 @NgModule({
-  declarations: [DefaultComponent, DevicesComponent],
+  declarations: [DefaultComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes)

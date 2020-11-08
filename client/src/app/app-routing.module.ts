@@ -21,6 +21,12 @@ const routes: Routes = [
     component: DashboardLayoutComponent,
     loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardModule),
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'devices',
+    component: DashboardLayoutComponent,
+    loadChildren: () => import('./pages/devices/devices.module').then(m => m.DevicesModule),
+    canActivate: [AuthGuard]
   }
 ];
 
