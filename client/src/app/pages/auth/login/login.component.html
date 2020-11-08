@@ -1,0 +1,31 @@
+<div class="d-flex flex-column mb-4">
+    <h6 class=" text-center my-1">Sign in to</h6>
+    <h2 class=" text-center my-0">Auth Services</h2>
+</div>
+<div class="card ">
+    <div class="card-body">
+        <form (submit)='login()' [formGroup]='loginForm'>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Email address</label>
+                <input formControlName='loginName' type="email" class="form-control" id="loginName" name="loginName"
+                    aria-describedby="emailHelp" placeholder="Enter email">
+                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                    else.</small>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input formControlName='password' name='password' type="password" class="form-control" id="password"
+                    placeholder="Password">
+            </div>
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>
+            <button [disabled]='httpProcessing' type="button" (click)='login()'
+                class="btn btn-primary btn-block">Submit</button>
+        </form>
+    </div>
+    <div class="card-footer text-center">
+        New here? <a routerLink='/sign-up'>Click to register.</a>
+    </div>
+</div>
