@@ -2,7 +2,7 @@ import app from "../server/app";
 const chai = require('chai');
 const request = require('supertest');
 
-describe.only('POST /energy-log', async () => {
+describe('POST /energy-log', async () => {
     let token, deviceToken;
     const url = '/energy-log';
     before(async () => {
