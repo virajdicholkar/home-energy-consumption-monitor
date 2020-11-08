@@ -53,4 +53,14 @@ export class DevicesComponent implements OnInit {
     this.currentPage = page;
     this.getDevices();
   }
+
+  getToken(device) {
+    const id = device._id;
+    device.gettingToken = true;
+    const path = `device/${id}/token`;
+    this.restService.get(path).subscribe((data) => {
+      device.token = data.token;
+      device.gettingToken = false;
+    })
+  }
 }

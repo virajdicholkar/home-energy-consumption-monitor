@@ -10,6 +10,7 @@
                 <th scope="col">Device</th>
                 <th scope="col">Description</th>
                 <th scope="col">Power (In watts)</th>
+                <th scope="col">Token</th>
             </tr>
         </thead>
         <tbody>
@@ -18,6 +19,14 @@
                 <td>{{device.name}}</td>
                 <td>{{device.description}}</td>
                 <td>{{device.powerInWatts | number : '1.2-2'}} Watts</td>
+                <td>
+                    <button (click)='getToken(device)' *ngIf="!device.token; else tokenTemplate"
+                        [disabled]='device.gettingToken' class="btn btn-primary">
+                        {{device.gettingToken ? 'Getting token...' : 'Get token'}}</button>
+                    <ng-template #tokenTemplate>
+                        <p class="token-display">{{device.token}}</p>
+                    </ng-template>
+                </td>
             </tr>
         </tbody>
     </table>
