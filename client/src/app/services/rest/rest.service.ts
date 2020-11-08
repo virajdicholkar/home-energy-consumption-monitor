@@ -47,7 +47,10 @@ export class RestService {
   }
 
   logout() {
-
+    this.isLogin = false;
+    this.setToken(null);
+    localStorage.removeItem('token');
+    location.reload();
   }
 
   /**

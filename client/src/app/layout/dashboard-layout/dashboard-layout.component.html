@@ -1,0 +1,27 @@
+<div class="container-fluid d-flex h-100 flex-column p-0">
+    <nav class="navbar navbar-light bg-light border-bottom ">
+        <span class="navbar-brand mb-0 h1">Home Energy Tracker</span>
+        <div class="navbar-text d-flex">
+            {{restService.currentHome?.ownerFirstName + ' ' + restService.currentHome?.ownerLastName}}
+            <button class='btn btn-link p-0 mx-2' (click)='logout()'>
+                <i class="fa fa-sign-out"></i>
+            </button>
+        </div>
+
+    </nav>
+    <div class="row flex-grow-1">
+        <div class="col-3 border-right p-0">
+            <div class="list-group list-group-flush">
+                <a routerLink='/dashboard/default' routerLinkActive='active'
+                    class="list-group-item list-group-item-action">
+                    Energy logs
+                </a>
+                <a routerLink='/dashboard/devices' routerLinkActive='active'
+                    class="list-group-item list-group-item-action">Devices</a>
+            </div>
+        </div>
+        <div class="col-9">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
