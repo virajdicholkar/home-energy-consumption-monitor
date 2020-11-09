@@ -10,7 +10,10 @@
     "clean": "rimraf build",
     "build": "npm run clean && npm install && tsc ",
     "prod": "npm run build && node ./build/server.js",
-    "build:client": "cd client && ng build"
+    "build:client": "cd client && ng build --watch",
+    "build:simulator": "cd simulator && ng build --watch --base-href=./simulator",
+    "build:client:prod": "cd client && ng build --prod",
+    "build:simulator:prod": "cd simulator && ng build --prod --base-href=./simulator"
   },
   "author": "",
   "license": "ISC",
