@@ -24,7 +24,8 @@ export class SimulatorComponent implements OnInit {
   initForm() {
     this.deviceForm = this.formBuilder.group({
       name: ['', Validators.required],
-      token: ['', Validators.required]
+      token: ['', Validators.required],
+      status: ['Stopped']
     })
   }
 
@@ -43,12 +44,14 @@ export class SimulatorComponent implements OnInit {
   }
 
   startDevice(device) {
+    device.status = "Running";
     device.started = true;
     device.startedTime = new Date();
     this.saveToLocalStorage();
   }
 
   stopDevice(device) {
+    device.status = "Stopped";
     const to = new Date()
     const from: Date = new Date(device.startedTime);
     device.started = false;
@@ -64,13 +67,13 @@ export class SimulatorComponent implements OnInit {
     this.httpClient.post(url, body, { headers }).subscribe((success) => {
       console.log('success', success)
     }, (error) => {
+      device.status = error.statusText || 'Unknown error';
       console.log('error', error)
     })
   }
 
   saveToLocalStorage() {
     localStorage.setItem('deviceList', JSON.stringify({ deviceList: this.deviceList }))
-
   }
   loadDevicesFromLocalStorage() {
     const deviceList = localStorage.getItem('deviceList');

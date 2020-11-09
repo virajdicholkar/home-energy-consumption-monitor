@@ -48,6 +48,7 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Device Name</th>
+                        <th scope="col">Status</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
@@ -55,8 +56,14 @@
                     <tr *ngFor="let device of deviceList; let index = index">
                         <th scope="row">{{index + 1}}</th>
                         <td>{{device.name}}</td>
+                        <td><span [ngClass]="{
+                            'text-danger': device.status !== 'Stopped' && device.status !== 'Running',
+                            'text-success': device.status === 'Running',
+                            'text-warning': device.status === 'Stopped'
+                        }">{{device.status}}</span></td>
                         <td>
-                            <button *ngIf="!device.started; else stopBtn" (click)='startDevice(device)' class="btn btn-primary">Start</button>
+                            <button *ngIf="!device.started; else stopBtn" (click)='startDevice(device)'
+                                class="btn btn-primary">Start</button>
                             <ng-template #stopBtn>
                                 <button class="btn btn-danger" (click)='stopDevice(device)'>Stop</button>
                             </ng-template>
