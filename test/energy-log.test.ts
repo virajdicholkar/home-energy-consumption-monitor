@@ -3,7 +3,7 @@ const chai = require('chai');
 const request = require('supertest');
 
 describe('POST /energy-log', async () => {
-    let token, deviceToken;
+    let token, deviceToken, device;
     const url = '/energy-log';
     before(async () => {
         const body = {
@@ -20,7 +20,8 @@ describe('POST /energy-log', async () => {
             .get('/device')
             .set('authorization', token)
             .expect(200)
-        const deviceId = devices.body.result[0]._id;
+        device = devices.body.result[0];
+        const deviceId = device._id;
         const deviceTokenRequest = await request(app)
             .get(`/device/${deviceId}/token`)
             .set('authorization', token)
@@ -49,6 +50,31 @@ describe('POST /energy-log', async () => {
             .set('deviceToken', deviceToken)
             .send(log)
             .expect(201)
+    })
+
+    it.only('Should add the correct log for energy consumption', async () => {
+        const fromDate = new Date()
+        setTimeout(async () => {
+            const toDate = new Date();
+            const log = {
+                "from": fromDate.toISOString(),
+                "to": toDate.toISOString()
+            }
+
+            const differenceInSeconds = (+toDate) - (+fromDate);
+            const differenceInHour = differenceInSeconds/3600;
+
+            const powerRequiredInWatts = device['powerInWatts'];
+            const powerRequiredInKwatts = powerRequiredInWatts / 1000;
+
+            const totalUnitsRequired = differenceInHour * powerRequiredInKwatts;
+            const newLog = await request(app)
+                .post(url)
+                .set('deviceToken', deviceToken)
+                .send(log)
+                .expect(201)
+            chai.expect(newLog.body.numberOfUnits).to.equal(totalUnitsRequired);
+        }, 10000);
     })
 
     it('Should throw en error if from date is blank', async () => {
