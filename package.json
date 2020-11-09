@@ -9,7 +9,8 @@
     "dev": "ts-node-dev --respawn --transpileOnly ./server/server.ts",
     "clean": "rimraf build",
     "build": "npm run clean && npm install && tsc ",
-    "prod": "npm run build && node ./build/server.js"
+    "prod": "npm run build && node ./build/server.js",
+    "build:client": "cd client && ng build"
   },
   "author": "",
   "license": "ISC",

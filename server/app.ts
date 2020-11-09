@@ -5,6 +5,8 @@ import express = require('express')
 import DBConfig from "./config/DBConfig"
 import { routes } from "./routes/routes"
 
+const path = require('path');
+
 class App {
 
     public app: express.Application = express();
@@ -27,14 +29,40 @@ class App {
             }
         });
 
-        this.app.use(express.static('public'));
-
+        
         this.app.use(routes.routes());
+        
+        this.app.use('/simulator', express.static('./simulator/dist/simulator/'));
+        this.app.get('/simulator', this.serveSimulator);
+
+        this.app.use(express.static('./client/dist/client/'));
+        this.app.get(/^\/(?!api).*/, this.serveIndex);
 
         let db = await DBConfig.connect()
 
     }
 
+    serveIndex(req: any, res: any) {
+        const indexPath = path.resolve('./client/dist/client/index.html');
+        if (indexPath) {
+            res.sendFile(indexPath);
+        } else {
+            res.json({
+                message: 'please do npm run client:watch'
+            });
+        }
+    }
+
+    serveSimulator(req: any, res: any) {
+        const indexPath = path.resolve('./simulator/dist/simulator/index.html');
+        if (indexPath) {
+            res.sendFile(indexPath);
+        } else {
+            res.json({
+                message: 'please do npm run simulator:watch'
+            });
+        }
+    }
 
 
 }
