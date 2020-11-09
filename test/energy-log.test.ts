@@ -52,7 +52,7 @@ describe('POST /energy-log', async () => {
             .expect(201)
     })
 
-    it.only('Should add the correct log for energy consumption', async () => {
+    it('Should add the correct log for energy consumption', async () => {
         const fromDate = new Date()
         setTimeout(async () => {
             const toDate = new Date();
