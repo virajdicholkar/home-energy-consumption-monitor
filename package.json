@@ -4,16 +4,19 @@
   "description": "Home Energy monitoring application",
   "main": "build/server.js",
   "scripts": {
+    "app-install": "npm install && npm run client:install && npm run simulator:install",
+    "client:install": "cd client && npm install && cd ..",
+    "simulator:install": "cd simulator && npm install && cd ..",
     "test": "mocha -r ts-node/register test/*.test.ts",
     "tsc": "tsc",
     "dev": "ts-node-dev --respawn --transpileOnly ./server/server.ts",
     "clean": "rimraf build",
     "build": "npm run clean && npm install && tsc ",
     "prod": "npm run build && node ./build/server.js",
-    "build:client": "cd client && ng build --watch",
-    "build:simulator": "cd simulator && ng build --watch --base-href=./simulator",
-    "build:client:prod": "cd client && ng build --prod",
-    "build:simulator:prod": "cd simulator && ng build --prod --base-href=./simulator"
+    "client:dev": "cd client && ng build --watch",
+    "simulator:dev": "cd simulator && ng build --watch --base-href=./simulator",
+    "client:prod": "cd client && ng build --prod",
+    "simulator:prod": "cd simulator && ng build --prod --base-href=./simulator"
   },
   "author": "",
   "license": "ISC",
